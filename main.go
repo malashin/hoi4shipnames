@@ -94,6 +94,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
 	for _, f := range files {
 		if strings.HasSuffix(f, "00_names.txt") {
 			continue
@@ -103,55 +104,55 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
+	}
 
-		for _, n := range namesMap {
-			var sn ShipName
-			for _, t := range n.Ships {
-				var r NamesNew
-				r.ForCountries = append(r.ForCountries, n.Tag)
-				r.FallbackName = t.Generic + " %d"
-				r.Unique = append(r.Unique, t.Unique...)
-				sort.Strings(r.Unique)
-				switch t.Name {
-				case "destroyer_equipment":
-					r.Scope = strings.ToUpper(n.Tag) + "_LIGHT"
-					r.Name = "NAME_THEME_LIGHT"
-					r.ShipTypes = append(r.ShipTypes, "light_ship_unit")
-					sn.Light = r
-				case "light_cruiser_equipment":
-					r.Scope = strings.ToUpper(n.Tag) + "_MEDIUM"
-					r.Name = "NAME_THEME_MEDIUM"
-					r.ShipTypes = append(r.ShipTypes, "medium_ship_screen_unit")
-					sn.Medium = r
-				case "heavy_cruiser_equipment":
-					r.Scope = strings.ToUpper(n.Tag) + "_HEAVY"
-					r.Name = "NAME_THEME_HEAVY"
-					r.ShipTypes = append(r.ShipTypes, "heavy_ship_unit")
-					sn.Heavy = r
-				case "battleship_equipment":
-					r.Scope = strings.ToUpper(n.Tag) + "_SUPER_HEAVY"
-					r.Name = "NAME_THEME_SUPER_HEAVY"
-					r.ShipTypes = append(r.ShipTypes, "super_heavy_ship_unit")
-					sn.SuperHeavy = r
-				case "carrier_equipment":
-					// skip
-				}
+	for _, n := range namesMap {
+		var sn ShipName
+		for _, t := range n.Ships {
+			var r NamesNew
+			r.ForCountries = append(r.ForCountries, n.Tag)
+			r.FallbackName = t.Generic + " %d"
+			r.Unique = append(r.Unique, t.Unique...)
+			sort.Strings(r.Unique)
+			switch t.Name {
+			case "destroyer_equipment":
+				r.Scope = strings.ToUpper(n.Tag) + "_LIGHT"
+				r.Name = "NAME_THEME_LIGHT"
+				r.ShipTypes = append(r.ShipTypes, "light_ship_unit")
+				sn.Light = r
+			case "light_cruiser_equipment":
+				r.Scope = strings.ToUpper(n.Tag) + "_MEDIUM"
+				r.Name = "NAME_THEME_MEDIUM"
+				r.ShipTypes = append(r.ShipTypes, "medium_ship_screen_unit")
+				sn.Medium = r
+			case "heavy_cruiser_equipment":
+				r.Scope = strings.ToUpper(n.Tag) + "_HEAVY"
+				r.Name = "NAME_THEME_HEAVY"
+				r.ShipTypes = append(r.ShipTypes, "heavy_ship_unit")
+				sn.Heavy = r
+			case "battleship_equipment":
+				r.Scope = strings.ToUpper(n.Tag) + "_SUPER_HEAVY"
+				r.Name = "NAME_THEME_SUPER_HEAVY"
+				r.ShipTypes = append(r.ShipTypes, "super_heavy_ship_unit")
+				sn.SuperHeavy = r
+			case "carrier_equipment":
+				// skip
 			}
+		}
 
-			output := string(utf8bom)
-			r := sn.Light
-			output += r.Scope + " = {\r\n\tname = " + r.Name + "\r\n\tfor_countries = { " + r.ForCountries[0] + " }\r\n\ttype = ship\r\n\tship_types = { " + r.ShipTypes[0] + " }\r\n\tfallback_name = \"" + r.FallbackName + "\"\r\n\tunique = {\r\n\t\t" + strings.Join(r.Unique, " ") + "\r\n\t}\r\n}\r\n\r\n"
-			r = sn.Medium
-			output += r.Scope + " = {\r\n\tname = " + r.Name + "\r\n\tfor_countries = { " + r.ForCountries[0] + " }\r\n\ttype = ship\r\n\tship_types = { " + r.ShipTypes[0] + " }\r\n\tfallback_name = \"" + r.FallbackName + "\"\r\n\tunique = {\r\n\t\t" + strings.Join(r.Unique, " ") + "\r\n\t}\r\n}\r\n\r\n"
-			r = sn.Heavy
-			output += r.Scope + " = {\r\n\tname = " + r.Name + "\r\n\tfor_countries = { " + r.ForCountries[0] + " }\r\n\ttype = ship\r\n\tship_types = { " + r.ShipTypes[0] + " }\r\n\tfallback_name = \"" + r.FallbackName + "\"\r\n\tunique = {\r\n\t\t" + strings.Join(r.Unique, " ") + "\r\n\t}\r\n}\r\n\r\n"
-			r = sn.SuperHeavy
-			output += r.Scope + " = {\r\n\tname = " + r.Name + "\r\n\tfor_countries = { " + r.ForCountries[0] + " }\r\n\ttype = ship\r\n\tship_types = { " + r.ShipTypes[0] + " }\r\n\tfallback_name = \"" + r.FallbackName + "\"\r\n\tunique = {\r\n\t\t" + strings.Join(r.Unique, " ") + "\r\n\t}\r\n}\r\n"
+		output := string(utf8bom)
+		r := sn.Light
+		output += r.Scope + " = {\r\n\tname = " + r.Name + "\r\n\tfor_countries = { " + r.ForCountries[0] + " }\r\n\ttype = ship\r\n\tship_types = { " + r.ShipTypes[0] + " }\r\n\tfallback_name = \"" + r.FallbackName + "\"\r\n\tunique = {\r\n\t\t" + strings.Join(r.Unique, " ") + "\r\n\t}\r\n}\r\n\r\n"
+		r = sn.Medium
+		output += r.Scope + " = {\r\n\tname = " + r.Name + "\r\n\tfor_countries = { " + r.ForCountries[0] + " }\r\n\ttype = ship\r\n\tship_types = { " + r.ShipTypes[0] + " }\r\n\tfallback_name = \"" + r.FallbackName + "\"\r\n\tunique = {\r\n\t\t" + strings.Join(r.Unique, " ") + "\r\n\t}\r\n}\r\n\r\n"
+		r = sn.Heavy
+		output += r.Scope + " = {\r\n\tname = " + r.Name + "\r\n\tfor_countries = { " + r.ForCountries[0] + " }\r\n\ttype = ship\r\n\tship_types = { " + r.ShipTypes[0] + " }\r\n\tfallback_name = \"" + r.FallbackName + "\"\r\n\tunique = {\r\n\t\t" + strings.Join(r.Unique, " ") + "\r\n\t}\r\n}\r\n\r\n"
+		r = sn.SuperHeavy
+		output += r.Scope + " = {\r\n\tname = " + r.Name + "\r\n\tfor_countries = { " + r.ForCountries[0] + " }\r\n\ttype = ship\r\n\tship_types = { " + r.ShipTypes[0] + " }\r\n\tfallback_name = \"" + r.FallbackName + "\"\r\n\tunique = {\r\n\t\t" + strings.Join(r.Unique, " ") + "\r\n\t}\r\n}\r\n"
 
-			err = ioutil.WriteFile(strings.ToUpper(n.Tag)+"_ship_names.txt", []byte(output), 0755)
-			if err != nil {
-				panic(err)
-			}
+		err = ioutil.WriteFile(strings.ToUpper(n.Tag)+"_ship_names.txt", []byte(output), 0755)
+		if err != nil {
+			panic(err)
 		}
 	}
 }
